@@ -35,9 +35,9 @@ namespace StepCounter.Database {
 			return StepEntryRepositoryADO.GetStepEntry(time);
 		}
 		
-		public static IList<StepEntry> GetStepEntries ()
+        public static IList<StepEntry> GetStepEntries (int count)
 		{
-			return new List<StepEntry>(StepEntryRepositoryADO.GetStepEntries());
+			return new List<StepEntry>(StepEntryRepositoryADO.GetStepEntries(count));
 		}
 		
 		public static int SaveStepEntry(StepEntry item)

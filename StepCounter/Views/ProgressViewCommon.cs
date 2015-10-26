@@ -3,8 +3,8 @@
 #if __ANDROID__
 using Android.Graphics;
 #elif __IOS__
-using MonoTouch.UIKit;
-using Color = MonoTouch.UIKit.UIColor;
+using UIKit;
+using Color = UIKit.UIColor;
 #endif
 
 #if __ANDROID__

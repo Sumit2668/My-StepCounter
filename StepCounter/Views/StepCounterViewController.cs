@@ -1,9 +1,9 @@
 using System;
-using System.Drawing;
+using CoreGraphics;
 using System.Globalization;
-using MonoTouch.CoreMotion;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreMotion;
+using Foundation;
+using UIKit;
 using StepCounter.Helpers;
 
 namespace StepCounter.Views
@@ -186,14 +186,14 @@ namespace StepCounter.Views
             btnDistance.AddMotionEffect(effectGroup);
         }
 
-        private RectangleF GetTargetPositionFromPercent(double percentageComplete)
+        private CGRect GetTargetPositionFromPercent(double percentageComplete)
         {
             var height = View.Frame.Size.Height;
             var inversePercentage = 100 - (100/100*percentageComplete);
                 //It needs to be inversed because iOS positions are from the top and not the bottom.
             var position = (height/100)*inversePercentage;
 
-            return new RectangleF(0, (float) position, _progressView.View.Frame.Size.Width, View.Frame.Size.Height);
+            return new CGRect(0, (float) position, _progressView.View.Frame.Size.Width, View.Frame.Size.Height);
         }
     }
 }

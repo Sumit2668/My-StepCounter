@@ -31,10 +31,10 @@
         <TextView
             android:text="12|31"
             android:id="@+id/day"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
+            android:fontFamily="sans-serif-light"
             android:textColor="@color/white"
             android:paddingRight="10dp"
             android:layout_gravity="center_vertical|left"

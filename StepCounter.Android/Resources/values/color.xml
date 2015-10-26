@@ -4,4 +4,8 @@
   <color name="ab_white">#fff3f3f3</color>
   <color name="red_background">#FFFF3B30</color>
   <color name="blue_background">#FF3498DB</color>
+  <color name="primary">#FF3B30</color>
+  <color name="primaryDark">#D32F2F</color>
+  <color name="accent">#3498DB</color>
+  <color name="window_background">#F5F5F5</color>
 </resources>

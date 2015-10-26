@@ -31,241 +31,266 @@ using Android.Views;
 using Android.Runtime;
 using Android.Content;
 using Android.Graphics.Drawables;
+using Android.Support.V4.View;
+using Android.Support.Design.Widget;
 
 namespace StepCounter.Activities
 {
-	enum NavigationType
-	{
-		Week = 0,
-		Month = 1,
-		Total = 2
-	}
+    enum NavigationType
+    {
+        Week = 0,
+        Month = 1,
+        Total = 2
+    }
 
-	[Activity (Label = "@string/menu_history", Icon = "@drawable/ic_launcher", Theme = "@style/ThemeActionBar", ScreenOrientation = ScreenOrientation.Portrait)]			
-	public class HistoryActivity : Activity, ActionBar.IOnNavigationListener
-	{
-		ListFragment list;
-		HistoryAdapter adapter;
-		string shareText;
-		private NavigationType navigationType = NavigationType.Total;
-		HistorySpinnerAdapter spinnerAdapter;
+    [Activity(Label = "@string/menu_history", Icon = "@drawable/ic_launcher", ScreenOrientation = ScreenOrientation.Portrait)]			
+    public class HistoryActivity : BaseActivity, Android.Support.V7.App.ActionBar.IOnNavigationListener
+    {
 
-		protected override void OnCreate (Bundle bundle)
-		{
-			base.OnCreate (bundle);
+        protected override int LayoutResource
+        {
+            get
+            {
+                return Resource.Layout.history;
+            }
+        }
+        Random random;
+        ListFragment list;
+        HistoryAdapter adapter;
+        string shareText;
+        NavigationType navigationType = NavigationType.Total;
+        HistorySpinnerAdapter spinnerAdapter;
 
-			SetContentView (Resource.Layout.history);
+        protected override void OnCreate(Bundle bundle)
+        {
+            base.OnCreate(bundle);
+            random = new Random();
+            SetActionBar();
 
-			SetActionBar ();
+            list = new ListFragment();
+            list.RetainInstance = true;
 
+            FragmentManager
+				.BeginTransaction()
+				.Add(Resource.Id.fragment_host, list)
+				.Commit();
 
-			list = new ListFragment ();
-			list.RetainInstance = true;
+            LoadList();
+        }
 
-			FragmentManager
-				.BeginTransaction ()
-				.Add (Resource.Id.fragment_host, list)
-				.Commit ();
+        long weekSteps, monthSteps;
 
-			LoadList ();
+        void SetActionBar()
+        {
 
-		}
+            if (monthSteps > 0 && weekSteps > 0 && spinnerAdapter == null)
+            {
+                SupportActionBar.NavigationMode = (int)ActionBarNavigationMode.List;
+                spinnerAdapter = new HistorySpinnerAdapter(this);
+                SupportActionBar.SetListNavigationCallbacks(spinnerAdapter, this);
+                SupportActionBar.SetSelectedNavigationItem(2);
+            }
+            long steps = 0;
+            switch (navigationType)
+            {
+                case NavigationType.Total:
+                    steps = Settings.TotalSteps;
+                    break;
+                case NavigationType.Month:
+                    steps = monthSteps;
+                    break;
+                case NavigationType.Week:
+                    steps = weekSteps;
+                    break;
+            }
+            var miles = Conversion.StepsToMiles(steps);
+            var calorieString = Resources.GetString(Resource.String.calories_short);
+            var distanceString = Resources.GetString(Settings.UseKilometeres ? Resource.String.kilometeres : Resource.String.miles);
 
-		private long weekSteps, monthSteps;
+            var distance = string.Format(distanceString, 
+                      Settings.UseKilometeres ? 
+				Conversion.StepsToKilometers(steps).ToString("N") : 
+				miles.ToString("N"));
 
-		private void SetActionBar ()
-		{
-
-			if (monthSteps > 0 && weekSteps > 0 && spinnerAdapter == null) {
-				ActionBar.NavigationMode = ActionBarNavigationMode.List;
-				spinnerAdapter = new HistorySpinnerAdapter (this);
-				ActionBar.SetListNavigationCallbacks (spinnerAdapter, this);
-				ActionBar.SetSelectedNavigationItem (2);
-			}
-			long steps = 0;
-			switch (navigationType) {
-			case NavigationType.Total:
-				steps = Settings.TotalSteps;
-				break;
-			case NavigationType.Month:
-				steps = monthSteps;
-				break;
-			case NavigationType.Week:
-				steps = weekSteps;
-				break;
-			}
-			var miles = Conversion.StepsToMiles (steps);
-			var calorieString = Resources.GetString (Resource.String.calories_short);
-			var distanceString = Resources.GetString (Helpers.Settings.UseKilometeres ? Resource.String.kilometeres : Resource.String.miles);
-
-			var distance = string.Format (distanceString, 
-				               Helpers.Settings.UseKilometeres ? 
-				Conversion.StepsToKilometers (steps).ToString ("N") : 
-				miles.ToString ("N"));
-
-			var lbs = Helpers.Settings.UseKilometeres ? Helpers.Settings.Weight * 2.20462 : Helpers.Settings.Weight;
-			var calories = string.Format (calorieString, 
-				               Helpers.Settings.Enhanced ? 
-				Conversion.CaloriesBurnt (miles, (float)lbs, Helpers.Settings.Cadence) :
-				Conversion.CaloriesBurnt (miles));
-
-
-			var title = Utils.FormatSteps (steps) + " " + Resources.GetString (Resource.String.steps);
-			var subtitle = distance + " | " + calories;
-
-			if (spinnerAdapter == null) {
-				this.ActionBar.Title = title;
-				this.ActionBar.Subtitle = subtitle;
-			} else {
-				this.ActionBar.Title = string.Empty;
-				this.ActionBar.Subtitle = string.Empty;
-				spinnerAdapter.Text1 = title;
-				spinnerAdapter.Text2 = subtitle;
-				spinnerAdapter.NotifyDataSetChanged ();
-			}
-
-			shareText = string.Format (Resources.GetString (Resource.String.share_steps_total), Utils.FormatSteps (steps), distance, calories.ToLower ());
-			InvalidateOptionsMenu ();
-		}
-
-		Android.Widget.ShareActionProvider actionProvider;
-
-		public override bool OnCreateOptionsMenu (IMenu menu)
-		{
-			this.MenuInflater.Inflate (Resource.Menu.history, menu);
-
-			var shareItem = menu.FindItem (Resource.Id.menu_share);
-			actionProvider = shareItem.ActionProvider.JavaCast<Android.Widget.ShareActionProvider> ();
-
-			var intent = new Intent (Intent.ActionSend);
-			intent.SetType ("text/plain");
-			intent.PutExtra (Intent.ExtraText, shareText);
-
-			actionProvider.SetShareIntent (intent);
+            var lbs = Settings.UseKilometeres ? Settings.Weight * 2.20462 : Helpers.Settings.Weight;
+            var calories = string.Format(calorieString, 
+                      Settings.Enhanced ? 
+				Conversion.CaloriesBurnt(miles, (float)lbs, Helpers.Settings.Cadence) :
+				Conversion.CaloriesBurnt(miles));
 
 
-			return base.OnCreateOptionsMenu (menu);
-		}
+            var title = Utils.FormatSteps(steps) + " " + Resources.GetString(Resource.String.steps);
+            var subtitle = distance + " | " + calories;
 
-		//Random random = new Random();
-		async Task LoadList ()
-		{
+            if (spinnerAdapter == null)
+            {
+                SupportActionBar.Title = title;
+                SupportActionBar.Subtitle = subtitle;
+            }
+            else
+            {
+                SupportActionBar.Title = string.Empty;
+                SupportActionBar.Subtitle = string.Empty;
+                spinnerAdapter.Text1 = title;
+                spinnerAdapter.Text2 = subtitle;
+                spinnerAdapter.NotifyDataSetChanged();
+            }
 
-			Task.Run (async () => {
+            shareText = string.Format(Resources.GetString(Resource.String.share_steps_total), Utils.FormatSteps(steps), distance, calories.ToLower());
+            InvalidateOptionsMenu();
+        }
 
-				var entries = StepEntryManager.GetStepEntries ();
+        Android.Support.V7.Widget.ShareActionProvider actionProvider;
 
-				/*entries.Clear();
-				for(int i = 0; i < 31; i++)
-				{
-					entries.Add(new StepEntry{ Date = DateTime.Today.AddDays(-i), Steps = random.Next(3000, 11000)});
-				}*/
-				var last7 = DateTime.Today.AddDays (-6);
-				var last30 = DateTime.Today.AddDays (-30);
-				weekSteps = monthSteps = Settings.CurrentDaySteps;
-				foreach (var date in entries) {
-					if (date.Date >= last7) {
-						weekSteps += date.Steps;
-						monthSteps += date.Steps;
-					} else if (date.Date >= last30) {
-						monthSteps += date.Steps;
-					}
-				}
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            this.MenuInflater.Inflate(Resource.Menu.history, menu);
 
-				adapter = new HistoryAdapter (this, entries);
+            var shareItem = menu.FindItem (Resource.Id.menu_share);
+            var provider = MenuItemCompat.GetActionProvider (shareItem);
+            actionProvider = provider.JavaCast<Android.Support.V7.Widget.ShareActionProvider> ();
+
+            var intent = new Intent(Intent.ActionSend);
+            intent.SetType("text/plain");
+            intent.PutExtra(Intent.ExtraText, shareText);
+
+            actionProvider.SetShareIntent(intent);
+
+
+            return base.OnCreateOptionsMenu(menu);
+        }
+
+        //Random random = new Random();
+        void LoadList()
+        {
+
+            Task.Run(() =>
+                {
+                    //now load all steps, why not!
+                    var entries = StepEntryManager.GetStepEntries(0);
+
+                    entries.Clear();
+    				for(int i = 0; i < 31; i++)
+    				{
+    					entries.Add(new StepEntry{ Date = DateTime.Today.AddDays(-i), Steps = random.Next(3000, 11000)});
+    				}
+                    var last7 = DateTime.Today.AddDays(-6);
+                    var last30 = DateTime.Today.AddDays(-30);
+                    weekSteps = monthSteps = Settings.CurrentDaySteps;
+                    foreach (var date in entries)
+                    {
+                        if (date.Date >= last7)
+                        {
+                            weekSteps += date.Steps;
+                            monthSteps += date.Steps;
+                        }
+                        else if (date.Date >= last30)
+                        {
+                            monthSteps += date.Steps;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    adapter = new HistoryAdapter(this, entries);
 			
-				RunOnUiThread (() => {
-					if (adapter.Count == 0) {
+                    RunOnUiThread(() =>
+                        {
+                            if (adapter.Count == 0)
+                            {
 
-						FindViewById<LinearLayout> (Resource.Id.main_layout).SetPadding (5, 5, 5, 5);
-					}
+                                FindViewById(Resource.Id.fragment_host).SetPadding(5, 5, 5, 5);
+                            }
 
-					list.SetEmptyText (Resources.GetString (Resource.String.no_history));
+                            list.SetEmptyText(Resources.GetString(Resource.String.no_history));
 
-					list.ListView.Divider = new ColorDrawable (Resources.GetColor (Resource.Color.ab_white));
-					list.ListView.DividerHeight = 3;
-					list.ListAdapter = adapter;
-					list.ListView.SetDrawSelectorOnTop (true);
-					list.ListView.ItemClick += HandleItemClick;
-					SetActionBar ();
-				});
-			});
-		}
+                            list.ListView.Divider = new ColorDrawable(Resources.GetColor(Resource.Color.ab_white));
+                            list.ListView.DividerHeight = 3;
+                            list.ListAdapter = adapter;
+                            list.ListView.SetDrawSelectorOnTop(true);
+                            list.ListView.ItemClick += HandleItemClick;
+                            SetActionBar();
+                        });
+                });
+        }
 
-		public bool OnNavigationItemSelected (int itemPosition, long itemId)
-		{
-			navigationType = (NavigationType)itemPosition;
-			SetActionBar ();
-			return true;
-		}
+        public bool OnNavigationItemSelected(int itemPosition, long itemId)
+        {
+            navigationType = (NavigationType)itemPosition;
+            SetActionBar();
+            return true;
+        }
 
-		void HandleItemClick (object sender, AdapterView.ItemClickEventArgs e)
-		{
-			var item = adapter [e.Position];
+        void HandleItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            var item = adapter[e.Position];
+            var alert = new Android.Support.V7.App.AlertDialog.Builder(this);
+            alert.SetTitle(Resource.String.steps_cap);
+            var view = LayoutInflater.Inflate(Resource.Layout.step_entry, null);
+            var stepsEdit = view.FindViewById<EditText>(Resource.Id.step_count);
 
-			var alert = new AlertDialog.Builder (this);
-			alert.SetIcon (Resource.Drawable.ic_launcher);
-			alert.SetTitle (Resource.String.steps_cap);
-			var view = LayoutInflater.Inflate (Resource.Layout.step_entry, null);
-			var stepsEdit = view.FindViewById<EditText> (Resource.Id.step_count);
+            stepsEdit.Text = item.Steps.ToString();
+            alert.SetView(view);
 
-			stepsEdit.Text = item.Steps.ToString ();
-			alert.SetView (view);
+            alert.SetPositiveButton(Resource.String.ok, (object sender2, DialogClickEventArgs e2) =>
+                {
 
-			alert.SetPositiveButton (Resource.String.ok, (object sender2, DialogClickEventArgs e2) => {
+                    //so now we want to see where we were previously, and where they 
+                    //want to set it. We will update the database entry,
+                    //update total steps in settings, and action bar title
+                    //which will also invalidate our share options!
+                    //if they set it to a negative number do not allow it.
 
-				//so now we want to see where we were previously, and where they 
-				//want to set it. We will update the database entry,
-				//update total steps in settings, and action bar title
-				//which will also invalidate our share options!
-				//if they set it to a negative number do not allow it.
+                    var newCount = -1;
+                    if (!Int32.TryParse(stepsEdit.Text, out newCount))
+                        return;
 
-				var newCount = -1;
-				if (!Int32.TryParse (stepsEdit.Text, out newCount))
-					return;
+                    if (newCount < 0)
+                        return;
 
-				if (newCount < 0)
-					return;
+                    var diff = newCount - item.Steps;
 
-				var diff = newCount - item.Steps;
+                    //update total steps even if negative as it will never go to 0
+                    //also update steps before today so home screen is correct and doesn't change
+                    Settings.TotalSteps += diff;
+                    Settings.StepsBeforeToday += diff;
 
-				//update total steps even if negative as it will never go to 0
-				//also update steps before today so home screen is correct and doesn't change
-				Settings.TotalSteps += diff;
-				Settings.StepsBeforeToday += diff;
+                    if (spinnerAdapter != null)
+                    {
+                        var last7 = DateTime.Today.AddDays(-6);
+                        var last30 = DateTime.Today.AddDays(-30);
+                        if (item.Date >= last7)
+                        {
+                            weekSteps += diff;
+                            monthSteps += diff;
+                        }
+                        else if (item.Date >= last30)
+                        {
+                            monthSteps += diff;
+                        }
 
-				if (spinnerAdapter != null) {
-					var last7 = DateTime.Today.AddDays (-6);
-					var last30 = DateTime.Today.AddDays (-30);
-					if (item.Date >= last7) {
-						weekSteps += diff;
-						monthSteps += diff;
-					} else if (item.Date >= last30) {
-						monthSteps += diff;
-					}
+                    }
 
-				}
+                    item.Steps = newCount;
 
-				item.Steps = newCount;
+                    StepEntryManager.SaveStepEntry(item);
 
-				Database.StepEntryManager.SaveStepEntry (item);
+                    //update UI
+                    RunOnUiThread(() =>
+                        {
+                            adapter.NotifyDataSetChanged();
+                            SetActionBar();
+                        });
+                });
 
-				//update UI
-				RunOnUiThread (() => {
-					adapter.NotifyDataSetChanged ();
-					SetActionBar ();
-				});
-			});
-
-			//we are lucky here as cancel is translated by android :)
-			alert.SetNegativeButton (Android.Resource.String.Cancel, delegate {
-				//do nothing here.
-			});
-
-			alert.Show ();
-		}
+            //we are lucky here as cancel is translated by android :)
+            alert.SetNegativeButton(Android.Resource.String.Cancel, delegate {} );
+            alert.Show();
+        }
 
 
-	}
+    }
 }
 

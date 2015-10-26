@@ -1,6 +1,6 @@
 using System;
-using MonoTouch.CoreMotion;
-using MonoTouch.Foundation;
+using CoreMotion;
+using Foundation;
 
 namespace StepCounter
 {
@@ -15,7 +15,7 @@ namespace StepCounter
         public StepManager()
         {
             ForceUpdate();
-            _stepCounter.StartStepCountingUpdates(_queue, 1, Updater);
+            _stepCounter.StartStepCountingUpdates(_queue, (nint)1, Updater);
         }
 
         public void ForceUpdate()
@@ -26,14 +26,22 @@ namespace StepCounter
                 _resetTime = DateTime.Today; //Forces update as the day may have changed.
             }
 
-            NSDate sMidnight = DateTime.SpecifyKind(_resetTime, DateTimeKind.Utc);
+            var sMidnight = DateTime.SpecifyKind(_resetTime, DateTimeKind.Utc);
 
             if (_queue == null)
                 _queue = NSOperationQueue.CurrentQueue;
             if (_stepCounter == null)
                 _stepCounter = new CMStepCounter();
 
-            _stepCounter.QueryStepCount(sMidnight, NSDate.Now, _queue, DailyStepQueryHandler);
+            _stepCounter.QueryStepCount(ToNSDate(sMidnight), NSDate.Now, _queue, DailyStepQueryHandler);
+        }
+
+        public static NSDate ToNSDate(DateTime date)
+        {
+            if (date.Kind == DateTimeKind.Unspecified)
+                date = DateTime.SpecifyKind(date, DateTimeKind.Utc);
+
+            return (NSDate) date;
         }
 
         public void StartCountingFrom(DateTime date)
@@ -42,15 +50,15 @@ namespace StepCounter
             ForceUpdate();
         }
 
-        private void DailyStepQueryHandler(int stepCount, NSError error)
+        private void DailyStepQueryHandler(nint stepCount, NSError error)
         {
-            DailyStepCountChanged(stepCount);
+            DailyStepCountChanged((int)stepCount);
         }
 
-        private void Updater(int stepCount, NSDate date, NSError error)
+        private void Updater(nint stepCount, NSDate date, NSError error)
         {
-            NSDate sMidnight = DateTime.SpecifyKind(_resetTime, DateTimeKind.Utc);
-            _stepCounter.QueryStepCount(sMidnight, NSDate.Now, _queue, DailyStepQueryHandler);
+            var sMidnight = DateTime.SpecifyKind(_resetTime, DateTimeKind.Utc);
+            _stepCounter.QueryStepCount(ToNSDate(sMidnight), NSDate.Now, _queue, DailyStepQueryHandler);
         }
 
         public event DailyStepCountChangedEventHandler DailyStepCountChanged;

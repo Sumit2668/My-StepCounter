@@ -1,34 +1,12 @@
-﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="StepCounter.Android/MainActivity.cs">
-    <Files>
-      <File FileName="StepCounter.Android/MainActivity.cs" Line="97" Column="22" />
-      <File FileName="StepCounter.Android/Resources/values/strings.xml" Line="11" Column="45" />
-      <File FileName="StepCounter.Android/Resources/values/styles.xml" Line="4" Column="24" />
-      <File FileName="StepCounter.Android/StepService.cs" Line="89" Column="4" />
-      <File FileName="StepCounter.Android/Controls/ProgressView.cs" Line="75" Column="4" />
-    </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="StepCounter.Android" expanded="True">
-            <Node name="Controls" expanded="True" />
-            <Node name="Resources" expanded="True">
-              <Node name="layout" expanded="True" />
-              <Node name="values" expanded="True" />
-              <Node name="xml" expanded="True" />
-            </Node>
-            <Node name="MainActivity.cs" selected="True" />
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
-  </MonoDevelop.Ide.Workbench>
+﻿<Properties StartupItem="StepCounter.Android/StepCounter.Android.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.Nexus 4 (KitKat)" />
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/mike/Git Respositories/StepCounter/StepCounter/Views/StepCounterViewController.cs" line="64" column="1" />
+      <Breakpoint file="/Users/jamesmontemagno/Documents/GitHub/My-StepCounter/StepCounter.Android/Adapters/HistorySpinnerAdapter.cs" line="91" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.StepCounter.Android MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" AndroidDeviceId-Debug="T062005D5Z" MonoForAntroid.PreferredTheme="Theme.DeviceDefault" />
+  <MonoDevelop.Ide.ItemProperties.StepCounter.Android MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" AndroidDeviceId-Debug="T062005D5Z" MonoForAntroid.PreferredTheme="Theme.DeviceDefault" AndroidDesignerPreferredDevice="Nexus 4" />
 </Properties>

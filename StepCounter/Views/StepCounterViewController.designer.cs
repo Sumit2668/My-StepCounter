@@ -4,7 +4,7 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using MonoTouch.Foundation;
+using Foundation;
 using System.CodeDom.Compiler;
 
 namespace StepCounter.Views
@@ -13,28 +13,28 @@ namespace StepCounter.Views
 	partial class StepCounterViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnDistance { get; set; }
+		UIKit.UIButton btnDistance { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblCalories { get; set; }
+		UIKit.UILabel lblCalories { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblDate { get; set; }
+		UIKit.UILabel lblDate { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblPercentage { get; set; }
+		UIKit.UILabel lblPercentage { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblStepCount { get; set; }
+		UIKit.UILabel lblStepCount { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblSteps { get; set; }
+		UIKit.UILabel lblSteps { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblTodayYouveTaken { get; set; }
+		UIKit.UILabel lblTodayYouveTaken { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIView progressContainer { get; set; }
+		UIKit.UIView progressContainer { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

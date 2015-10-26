@@ -20,11 +20,13 @@
 using Android.App;
 using Android.Views;
 using Android.Widget;
-using StepCounter.Database;
 using System.Collections.Generic;
 using System;
+using StepCounter.Database;
 using StepCounter.Helpers;
 using StepCounter.Controls;
+
+using static StepCounter.Helpers.Settings;
 
 namespace StepCounter.Adapters
 {
@@ -38,8 +40,8 @@ namespace StepCounter.Adapters
 	}
 	public class HistoryAdapter : BaseAdapter<StepEntry>
 	{
-		private Activity context;
-		private IList<StepEntry> entries;
+		readonly Activity context;
+		readonly IList<StepEntry> entries;
 		public HistoryAdapter(Activity context, IList<StepEntry> entries)
 		{
 			this.entries = entries;
@@ -74,20 +76,20 @@ namespace StepCounter.Adapters
 				percent = 100;
 			else if (percent < 0)
 				percent = 0;
-			LinearLayout.LayoutParams paramCompleted = new LinearLayout.LayoutParams(
-				0, ViewGroup.LayoutParams.FillParent, percent);
-			LinearLayout.LayoutParams paramRemaining = new LinearLayout.LayoutParams(
-				0, ViewGroup.LayoutParams.FillParent, 100 - percent);
+			var paramCompleted = new LinearLayout.LayoutParams(
+                0, ViewGroup.LayoutParams.MatchParent, percent);
+			var paramRemaining = new LinearLayout.LayoutParams(
+                0, ViewGroup.LayoutParams.MatchParent, 100 - percent);
 
 			wrapper.Remaining.LayoutParameters = paramRemaining;
 			wrapper.Completed.LayoutParameters = paramCompleted;
 			wrapper.Completed.SetStepCount (entry.Steps);
 			bool isHighScore = false;
-			if (entry.Date.DayOfYear == Helpers.Settings.HighScoreDay.DayOfYear &&
-				entry.Date.Year == Helpers.Settings.HighScoreDay.Year) {
+			if (entry.Date.DayOfYear == HighScoreDay.DayOfYear &&
+				entry.Date.Year == HighScoreDay.Year) {
 
-				if (Helpers.Settings.FirstDayOfUse.DayOfYear == Helpers.Settings.HighScoreDay.DayOfYear &&
-				    Helpers.Settings.FirstDayOfUse.Year == Helpers.Settings.HighScoreDay.Year) {
+				if (FirstDayOfUse.DayOfYear == HighScoreDay.DayOfYear &&
+				    FirstDayOfUse.Year == HighScoreDay.Year) {
 				} else {
 					isHighScore = true;
 				}
@@ -97,19 +99,8 @@ namespace StepCounter.Adapters
 			return view;
 		}
 
-		public override StepEntry this[int index]
-		{
-			get { return entries[index]; }
-		}
-
-		public override int Count
-		{
-			get { return entries.Count; }
-		}
-
-		public override long GetItemId(int position)
-		{
-			return position;
-		}
+		public override StepEntry this[int index] => entries[index];
+		public override int Count => entries.Count; 
+		public override long GetItemId(int position) => position;
 	}
 }

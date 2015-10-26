@@ -5,7 +5,7 @@
 // Manual changes to this file may not be handled correctly.
 //
 
-using MonoTouch.Foundation;
+using Foundation;
 
 namespace StepCounter.Views
 {
@@ -13,7 +13,7 @@ namespace StepCounter.Views
 	partial class ProgressView
 	{
 		[Outlet]
-		MonoTouch.UIKit.UILabel lblPercentage { get; set; }
+		UIKit.UILabel lblPercentage { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{

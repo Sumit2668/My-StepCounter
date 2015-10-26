@@ -128,4 +128,8 @@
                 android:textColor="@color/white" />
         </FrameLayout>
     </FrameLayout>
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar"
+        android:gravity="top" />
 </stepcounter.controls.ProgressView>

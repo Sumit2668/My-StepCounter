@@ -75,9 +75,9 @@ namespace StepCounter.Database {
 			return me.db.GetItem(time);
 		}
 
-		public static IEnumerable<StepEntry> GetStepEntries ()
+        public static IEnumerable<StepEntry> GetStepEntries (int count)
 		{
-			return me.db.GetItems(31);
+			return me.db.GetItems(count);
 		}
 
 		public static int SaveStepEntry (StepEntry item)

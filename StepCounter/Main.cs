@@ -1,4 +1,4 @@
-using MonoTouch.UIKit;
+dusing UIKit;
 
 namespace StepCounter
 {
@@ -7,7 +7,8 @@ namespace StepCounter
 		// This is the main entry point of the application.
 		static void Main (string[] args)
 		{
-            UIApplication.Main(args, null, "AppDelegate");
+			Xamarin.Insights.Initialize (XamarinInsights.ApiKey);
+			UIApplication.Main (args, null, "AppDelegate");
 		}
 	}
 }
