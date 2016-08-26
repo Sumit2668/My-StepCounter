@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -15,7 +15,7 @@
     <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
     <AssemblyName>StepCounter</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
-    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,23 +48,21 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
+    <Reference Include="Xamarin.Android.Support.v4, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Settings.cs" />
-    <Compile Include="..\StepCounter\Helpers\Conversion.cs">
-      <Link>Helpers\Conversion.cs</Link>
-    </Compile>
     <Compile Include="Controls\FontFitTextView.cs" />
     <Compile Include="Database\StepEntry.cs" />
     <Compile Include="Database\StepEntryDatabaseADO.cs" />
     <Compile Include="Database\StepEntryManager.cs" />
     <Compile Include="Database\StepEntryRepositoryADO.cs" />
     <Compile Include="Controls\ProgressView.cs" />
-    <Compile Include="..\StepCounter\Views\ProgressViewCommon.cs">
-      <Link>Controls\ProgressViewCommon.cs</Link>
-    </Compile>
     <Compile Include="Adapters\HistoryItemAdapter.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Activities\MainActivity.cs" />
@@ -78,6 +76,7 @@
     <Compile Include="Adapters\HistorySpinnerAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -135,31 +134,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Resources\menu\" />
-    <Folder Include="Resources\xml\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Controls\" />
-    <Folder Include="Database\" />
-    <Folder Include="Resources\drawable-mdpi\" />
-    <Folder Include="Resources\drawable-hdpi\" />
-    <Folder Include="Resources\drawable-xhdpi\" />
-    <Folder Include="Resources\drawable-xxhdpi\" />
-    <Folder Include="Adapters\" />
-    <Folder Include="Services\" />
-    <Folder Include="Activities\" />
-    <Folder Include="Resources\values-de\" />
     <Folder Include="Resources\drawable\" />
-    <Folder Include="Resources\values-ro\" />
-    <Folder Include="Resources\values-es\" />
-    <Folder Include="Resources\drawable-xxxhdpi\" />
-    <Folder Include="Resources\values-fr\" />
-    <Folder Include="Resources\values-fi\" />
-    <Folder Include="Resources\values-ja\" />
-    <Folder Include="Resources\values-da\" />
-    <Folder Include="Resources\values-it\" />
-    <Folder Include="Resources\drawable-nodpi\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidEnvironment Include="environment.txt" />
   </ItemGroup>
+  <Import Project="..\StepCounter.Shared\StepCounter.Shared.projitems" Label="Shared" />
 </Project>

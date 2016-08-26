@@ -25,9 +25,7 @@ using System.ComponentModel;
 using StepCounter.Helpers;
 using StepCounter.Database;
 using StepCounter.Activities;
-#if PRO
 using Android.Support.V4.App;
-#endif
 using Android.Graphics;
 
 namespace StepCounter.Services
@@ -323,9 +321,6 @@ namespace StepCounter.Services
 		}
 
 
-		#if PRO
-		//This requires support v4 NuGet Package. Not supported on Starter.
-
 		private void PopUpNotification(int id, string title, string message){
 
 			var wearableExtender = new NotificationCompat.WearableExtender ()
@@ -374,7 +369,7 @@ namespace StepCounter.Services
 			// mId allows you to update the notification later on.
 			notificationManager.Notify(id, builder.Build());
 		}
-		#else
+	/*
 
 		private void PopUpNotification(int id, string title, string message){
 			Notification.Builder mBuilder =
@@ -409,7 +404,7 @@ namespace StepCounter.Services
 			// mId allows you to update the notification later on.
 			mNotificationManager.Notify(id, mBuilder.Build());
 		}
-		#endif
+		*/
 
 		private void CrunchDates(bool startup = false)
 		{
