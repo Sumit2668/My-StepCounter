@@ -33,11 +33,10 @@ Uses the built in Android step counter sensor found on select Android 4.4+ devic
        src="https://developer.android.com/images/brand/en_app_rgb_wo_60.png" />
 </a>
 
-### Built with Xamarin Starter
+### Build Status 
+Continuously built with [Visual Studio Team Services](https://www.visualstudio.com/en-us/products/visual-studio-team-services-vs.aspx). 
 
-Both the Android and iOS versions of My StepCounter were built in C# with Xamarin Starter Edition!
-
-<a href="http://www.xamarin.com/starter" target="_blank"><img alt="Xamarin Starter Compatible" src="https://raw.githubusercontent.com/jamesmontemagno/My-StepCounter/master/Artwork/XamarinStarterCompatible.png"/></a>
+Current Build Status ![Status](https://jamesmontemagno.visualstudio.com/_apis/public/build/definitions/2b1e39eb-7cb6-4098-8ed7-75e139b17685/1/badge)
 
 
 ### More Information
