@@ -1,13 +1,19 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepCounter.Android", "StepCounter.Android\StepCounter.Android.csproj", "{CE7D99E2-F6C4-4741-AAAB-F1FFF182C56B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StepCounter.iOS", "StepCounter\StepCounter.iOS.csproj", "{E0535745-3089-4824-AF07-D1472F404A0D}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "StepCounter.Shared", "StepCounter.Shared\StepCounter.Shared.shproj", "{8FF85871-64D2-4389-BB7A-711992A433FE}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		StepCounter.Shared\StepCounter.Shared.projitems*{8ff85871-64d2-4389-bb7a-711992a433fe}*SharedItemsImports = 13
+		StepCounter.Shared\StepCounter.Shared.projitems*{ce7d99e2-f6c4-4741-aaab-f1fff182c56b}*SharedItemsImports = 4
+		StepCounter.Shared\StepCounter.Shared.projitems*{e0535745-3089-4824-af07-d1472f404a0d}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|iPhone = Ad-Hoc|iPhone
 		Ad-Hoc|iPhoneSimulator = Ad-Hoc|iPhoneSimulator
@@ -52,10 +58,10 @@ Global
 		{E0535745-3089-4824-AF07-D1472F404A0D}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{E0535745-3089-4824-AF07-D1472F404A0D}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = StepCounter.Android\StepCounter.Android.csproj
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = StepCounter.Android\StepCounter.Android.csproj
 	EndGlobalSection
 EndGlobal

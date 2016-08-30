@@ -30,8 +30,6 @@
   <string name="created_by_summary">James Montemagno</string>
   <string name="inspired_by">Inspiriert durch</string>
   <string name="inspired_by_summary">Michael James</string>
-  <string name="copyright">Copyright 2014 Refractored LLC</string>
-  <string name="version">v1.3</string>
   <string name="created_with">Erstellt mit</string>
   <string name="created_with_summary">C# und Xamarin</string>
   <string name="ok">Ok</string>

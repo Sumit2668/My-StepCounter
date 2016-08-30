@@ -30,8 +30,6 @@
   <string name="created_by_summary">James Montemagno</string>
   <string name="inspired_by">参照</string>
   <string name="inspired_by_summary">Michael James</string>
-  <string name="copyright">著作権 2014 Refractored LLC</string>
-  <string name="version">v1.3</string>
   <string name="created_with">使用言語</string>
   <string name="created_with_summary">C#、Xamarin</string>
   <string name="ok">OK</string>
