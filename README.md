@@ -1,6 +1,8 @@
 ![My StepCounter iCon](https://raw.githubusercontent.com/jamesmontemagno/My-StepCounter/master/StepCounter/Resources/Icon@2x.png) My StepCounter
 ==============
 
+update
+
 Time to get active, lose weight, lower your blood pressure, live longer, and feel better! Download My StepCounter for free so you can enjoy this easy-to-use and beautifully designed pedometer app! Developed exclusively for iOS and Android 4.4+ devices, My StepCounter doesn’t require any special permissions and uses your device’s built in step counter, making the app extremely energy efficient. It's perfect for your on-the-go lifestyle!
 
 ![My StepCounter](https://raw.githubusercontent.com/jamesmontemagno/My-StepCounter/master/Artwork/Android/Hero.png) 
